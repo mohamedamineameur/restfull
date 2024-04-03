@@ -1,5 +1,6 @@
 import { Etat_Commande } from "../models/index.js";
 
+
 const addEtat_commande=async(etat)=>{
 const nom=etat
 try{
@@ -16,10 +17,13 @@ try{
 
 
 
-export const Etats=()=>{
-    const etats=["Panier","Cuisine","Livraison","Terminée"]
-    etats.forEach(element => {
-        addEtat_commande(element)
-    });
-
+export const Etats = async () => {
+    const etats = ["En attente de preparation", "En cours de préparation", "En cours de livraison", "Livraison terminée"];
+    let a = 0;
+    console.log("****************************************************");
+    for (let element of etats) {
+        console.log(a);
+        await addEtat_commande(element);
+        a++;
+    }
 }

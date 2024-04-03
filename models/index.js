@@ -8,7 +8,7 @@ import { Categorie } from "./categorie.js";
 import {PanierProduit} from './ProduitPanier.js'
 
 // Définition des relations
-Etat_Commande.hasMany(Commande);
+Etat_Commande.hasMany(Commande, { as: 'etat_Commande' }) ;
 Commande.belongsTo(Etat_Commande);
 Utilisateur.hasMany(Commande);
 Commande.belongsTo(Utilisateur);

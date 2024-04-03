@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs'
 import validerUtilisateur from "../Validation/ValidationUtilisateur.js";
 import { mailer } from "./Mailer.js";
 import jwt from 'jsonwebtoken'
+import { Type_Utilisateur } from "../models/index.js";
 
 
 export const addUtilisateur = async (req, res) => {
@@ -21,24 +22,26 @@ for(let i=0;i<6;i++){
     const verifier=false
     const errors=validerUtilisateur(req.body)
     if (errors !== true) {
-        return res.status(400).json({ errors });  
+        return res.status(400).json({
+            message: "Des erreurs de validation ont été trouvées.",
+            errors: errors
+        });
     }
-    
   
     try {
         const user = await Utilisateur.findOne({ where: { courriel: courriel } });
 
-
+        const typeUtilisateurId = 2
         if(!user){const mdpCrypte=bcrypt.hashSync(mot_de_passe,10)
         
         
-        const new_utilisateur = await Utilisateur.create({  courriel, mot_de_passe:mdpCrypte, nom, prenom,numVerif,verifier  });
+        const new_utilisateur = await Utilisateur.create({  courriel, mot_de_passe:mdpCrypte, nom, prenom,numVerif,verifier, typeUtilisateurId  });
         
         const b = `http://localhost:5005/verification/befor?code=${numVerif}&courriel=${courriel}`
 
         mailer(courriel,'Verification de lemail',b)
         res.status(201).json(new_utilisateur);}else{
-            res.status(201).json({ message: "mail déjà utilisé" });
+            res.status(400).json({ message: "Cette adresse email est déjà utilisée" });
 ;
         }
         
@@ -93,8 +96,8 @@ export const getUtilisateurParCourriel= async(req,res)=>{
 
 export const updateUtilisateur = async (req, res) => {
     const { id } = req.body;
-
-    
+    console.log("hi")
+    console.log(req.body)
     const errors = validerUtilisateur(req.body);
     if (errors !== true) {
         return res.status(400).json({ errors });
@@ -134,7 +137,11 @@ export const updateUtilisateur = async (req, res) => {
 export const getUtilisateurs=async(req,res)=>{
 
     try{
-        const users= await Utilisateur.findAll()
+        const users= await Utilisateur.findAll({
+            include: [{
+                model: Type_Utilisateur
+            }]
+        })
         res.status(200).json(users);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -144,8 +151,9 @@ export const getUtilisateurs=async(req,res)=>{
 
 export const useradmin=async()=>{
    const courriel='admin@test.com'
-   const mot_de_passe='amdin'
+   const mot_de_passe='admin'
    const typeUtilisateurId=1
+   const verifier = true
 
    
   
@@ -156,7 +164,7 @@ export const useradmin=async()=>{
             const mdpCrypte=bcrypt.hashSync(mot_de_passe,10)
         
         
-        const new_utilisateur = await Utilisateur.create({  courriel, mot_de_passe:mdpCrypte,typeUtilisateurId});
+        const new_utilisateur = await Utilisateur.create({  courriel, mot_de_passe:mdpCrypte,typeUtilisateurId, verifier});
        
         }
         

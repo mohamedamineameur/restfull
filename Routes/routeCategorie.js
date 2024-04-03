@@ -6,7 +6,7 @@ import {addCategorie,updateCategorieById,getCategories}from '../Controlers/categ
 const routeCategorie = Router();
 
 routeCategorie.post('/', verifierToken, authorized(0), addCategorie)
-    .get('/',verifierToken, authorized(0), getCategories)
+    .get('/',/*verifierToken, authorized(0),*/ getCategories)
     .put('/', verifierToken, authorized(0), updateCategorieById)
     
 export default routeCategorie;

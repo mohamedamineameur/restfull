@@ -10,22 +10,25 @@ import dotenv from 'dotenv'
 import routeurPrincipal from './Routes/index.js'
 import { Etats } from './Controlers/etat_commande.js'
 
-import { test, test2 } from './Controlers/Mailer.js'
+
 import { useradmin } from './Controlers/utilisateur.js'
-import { type } from './Controlers/type_utilisateur.js'
+import { type, type2 } from './Controlers/type_utilisateur.js'
 import { mailer } from './Controlers/Mailer.js'
 import { addPanierProduit } from './Controlers/ProduitPanier.js'
 import { addCategorie } from './Controlers/categorie.js'
 import path from 'path';
 import { fileURLToPath } from 'url'
-database.sync().then(() => {
-    return Etats(); // Assurez-vous que `Etats` retourne une promesse.
-  })
+database.sync()
   .then(() => {
     return type(); // Assurez-vous que `type` retourne une promesse.
+  }).then(() => {
+    return type2(); // Assurez-vous que `type` retourne une promesse.
   })
   .then(() => {
     useradmin(); // Appelle `useradmin` après le succès des promesses précédentes.
+  }).then(() => {
+    
+    return Etats(); // Assurez-vous que `Etats` retourne une promesse.
   })
   .catch((error) => {
     console.error("Une erreur est survenue :", error);

@@ -30,7 +30,7 @@ const fileFilter = (req, file, cb) => {
   if (imageFileTypes.test(file.mimetype)) {
     cb(null, true);
   } else {
-    cb(new Error('Type de fichier non supporté'), false);
+    cb(new Error('Seul les fichiers de type: jpeg, jpg, png et gif qui sont acceptés'), false);
   }
 };
 

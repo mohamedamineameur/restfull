@@ -5,10 +5,10 @@ import { addCommande,getAllCommandesByUserId,getComandes,getOneCommandeById, upd
 
 const routeCommandes = Router();
 
-routeCommandes.get('/',verifierToken,authorized(1), getComandes)
+routeCommandes.get('/',/*verifierToken,authorized(1),*/ getComandes)
     .post('/',verifierToken,authorized(0), addCommande)
-    .get('/:id',verifierToken,authorized(0), getAllCommandesByUserId)
+    .get('/byid',verifierToken,authorized(0), getAllCommandesByUserId)
     .get('/:id',verifierToken,authorized(0), getOneCommandeById)
-    .put('/:id',verifierToken,authorized(1), updateCommandeById )
+    .put('/',/*verifierToken,authorized(1),*/ updateCommandeById )
     
 export default routeCommandes;

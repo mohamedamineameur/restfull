@@ -44,7 +44,7 @@ export const getTypeParId= async(req,res)=>{
         if(!type){
             return res.status(404).json({message:'type utilisateur non trouvé'})
         }
-        return type
+        res.status(200).json(type);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -67,6 +67,7 @@ export const updateTypeById=async(req,res)=>{
             }
         }
         await type.save()
+        res.json({ message: "Produit mis à jour avec succès."});
 
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -80,6 +81,32 @@ export const type=async()=>{
 
     const nom='admin'
     const niveau=3
+    
+
+    try {
+
+        const type = await Type_Utilisateur.findOne({where:{nom:nom}})
+        
+       if(!type){
+        
+        
+        const new_type = await Type_Utilisateur.create({  nom,niveau  });
+       
+    
+    }
+        
+        
+    } catch (error) {
+        
+    }
+
+}
+
+export const type2=async()=>{
+
+
+    const nom='client'
+    const niveau=0
     
 
     try {

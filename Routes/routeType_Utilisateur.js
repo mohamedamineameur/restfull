@@ -5,7 +5,7 @@ import { addType_Utilisateur, getTypes, getTypeParId, updateTypeById } from "../
 const routeTypeUtilisateur = Router();
 
 routeTypeUtilisateur.post('/', verifierToken, authorized(3), addType_Utilisateur)
-    .get('/', verifierToken, authorized(3), getTypes)
+    .get('/',/* verifierToken, authorized(3),*/ getTypes)
     .get('/getbyid/', verifierToken, authorized(3), getTypeParId)
     .put('/updatebyid/', verifierToken, authorized(3), updateTypeById);
 

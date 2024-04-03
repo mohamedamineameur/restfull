@@ -3,11 +3,22 @@ import { Utilisateur } from "../models/index.js";
 import { Commande } from "../models/index.js";
 import { Produit} from "../models/index.js";
 import { PanierProduit } from "../models/index.js";
+import jwt from 'jsonwebtoken'
+import { Etat_Commande } from "../models/index.js";
+import {mailer} from './Mailer.js'
 
 export const addCommande = async(req,res)=>{
-    console.log("555555")
-    try {const etatCommandeIds=2
-        const { panierId} = req.body;
+    
+    const { panierId} = req.body.data;
+
+    console.log(req.body)
+
+
+
+
+    
+    try {const etatCommandeIds=1
+        
         
         
         const panier=await Panier.findByPk(panierId)
@@ -111,17 +122,22 @@ export const addCommande = async(req,res)=>{
 */
 }
 
-export const getComandes= async (req,res)=>{
+export const getComandes = async (req, res) => {
+
     
-    try{
-        const commandes= await Commande.findAll()
+    try {
+        const commandes = await Commande.findAll({
+            include: [{
+                model: Etat_Commande
+            }]
+        });
         res.status(200).json(commandes);
+        console.log('hi')
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-
-
 }
+
 
 export const getOneCommandeById=async(req,res)=>{
     const {id}=req.body
@@ -152,7 +168,11 @@ export const getAllCommandesByUserId=async (req,res)=>{
         
     })
     try{
-        const commandes= await Commande.findAll({where:{utilisateurId:id}})
+        const commandes= await Commande.findAll({where:{utilisateurId:id},
+            include: [{
+                model: Etat_Commande
+            }]
+        })
         res.status(200).json(commandes);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -163,7 +183,13 @@ export const getAllCommandesByUserId=async (req,res)=>{
 
 
 export const updateCommandeById=async(req,res)=>{
+
+   
+
+    
+
     const {id}=req.body
+    
     
     try{
         const commande= await Commande.findByPk(id,{})
@@ -177,6 +203,17 @@ export const updateCommandeById=async(req,res)=>{
             }
         }
         await commande.save()
+        res.status(200).json("commandes");
+        console.log(commande.etatCommandeId)
+        const user = await Utilisateur.findByPk(commande.utilisateurId)
+        const mail = user.courriel
+        const message = `Votre commande #${id} a bien été livrée à votre adresse`
+        const sujet = 'Livraison terminée'
+        if(commande.etatCommandeId===4){
+            mailer(mail, sujet, message)
+
+        }
+        
 
     } catch (error) {
         res.status(500).json({ error: error.message });

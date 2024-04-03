@@ -8,7 +8,7 @@ routePanier.post('/', verifierToken, authorized(0), addItem)
     .get('/', verifierToken, authorized(1), getItmes)
     .get('/user', verifierToken, authorized(0), getItmesByUserId)
     .get('/:id', verifierToken, authorized(0), getItemById)
-    .put('/:id', verifierToken, authorized(0), updateItemById)
+    .put('/put', verifierToken, authorized(0), updateItemById)
     .delete('/:id', verifierToken, authorized(0), deletItemById);
 
 export default routePanier;
