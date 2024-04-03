@@ -38,7 +38,7 @@ database.sync()
   const __dirname = path.dirname(__filename);
 
 
-const { PORT } = dotenv.config().parsed
+const PORT = process.env.PORT || 10000;
 const app = express()
 app.use(helmet())
 app.use(compression())
