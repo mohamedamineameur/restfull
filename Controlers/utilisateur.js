@@ -37,7 +37,7 @@ for(let i=0;i<6;i++){
         
         const new_utilisateur = await Utilisateur.create({  courriel, mot_de_passe:mdpCrypte, nom, prenom,numVerif,verifier, typeUtilisateurId  });
         
-        const b = `http://localhost:5005/verification/befor?code=${numVerif}&courriel=${courriel}`
+        const b = `https://restfull-a3g4.onrender.com/verification/befor?code=${numVerif}&courriel=${courriel}`
 
         mailer(courriel,'Verification de lemail',b)
         res.status(201).json(new_utilisateur);}else{
