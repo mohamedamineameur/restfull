@@ -8,7 +8,7 @@ routeUtilisateur.post('/', addUtilisateur)
     .get('/by', verifierToken, authorized(0), getUtilisateurParId)
     .get('/courriel', verifierToken, authorized(0), getUtilisateurParCourriel)
     .put('/put', verifierToken, authorized(1), updateUtilisateur)
-    .get('/',/*verifierToken, authorized(3),*/getUtilisateurs)
+    .get('/',verifierToken, authorized(3),getUtilisateurs)
     .post('/verification/',verificationMail)
     .post('/ressend/:id',resendVerif)
 
